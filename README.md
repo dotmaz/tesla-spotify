@@ -1,6 +1,6 @@
-# tesla-spotify
+# Tesla Spotify App
 
-This template should help get you started developing with Vue 3 in Vite.
+An in-car web browser spotify app that can be augmented to the default in-car Spotify app's experience
 
 ## Recommended IDE Setup
 
