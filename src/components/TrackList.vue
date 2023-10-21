@@ -1,6 +1,6 @@
 <template>
   <div class="tracks-container">
-    <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`">
+    <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`" ref="trackList">
       <div v-for="track in tracks" :key="track.track.id" :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`" @click="handleTrackClicked(track.track)">
         <div class="track-image">
           <img :src="track.track.album.images[track.track.album.images.length-1].url" />
@@ -11,7 +11,14 @@
         <p class="track-duration">{{ formatDuration(track.track.duration_ms) }}</p>
       </div>
     </div>
-    
+    <div class="track-actions">
+      <div @click="scrollToTop" class="track-action">
+        <font-awesome-icon :icon="['fas', 'arrow-up']" />
+      </div>
+      <div @click="scrollToBottom" class="track-action flipped">
+        <font-awesome-icon :icon="['fas', 'arrow-up']" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -35,18 +42,33 @@ export default {
       const secondsString = seconds < 10 ? '0' + seconds.toString() : seconds.toString()
 
       return minutesString + ':' + secondsString
+    },
+    scrollToBottom(){
+      this.$refs.trackList.scrollTo({
+        top: this.$refs.trackList.scrollHeight,
+        behavior: 'smooth'
+      })
+    },
+    scrollToTop(){
+      this.$refs.trackList.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 }
 </script>
 
 <style>
+html{
+  transform: scale(0.75);
+}
 .tracks-container{
   width: 100%;
   height: 100%;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .track-list{
@@ -62,22 +84,41 @@ export default {
   user-select: none;
 }
 
+.track-list p{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  line-height: 1.5em;
+  max-height: 3em;
+  text-overflow: ellipsis;
+}
+
 .track-list.loading{
   opacity: 0.5;
   pointer-events: none;
 }
 
+
+.track-list::-webkit-scrollbar {
+    width: 0;
+}
+.track-list::-webkit-scrollbar-thumb, .track-list::-webkit-scrollbar-track {
+    display: none;
+}
+
 .track{
   width: 100%;
-  min-height: 70px;
+  min-height: 100px;
   padding: 7px;
+  padding-left: 12px;
   margin-bottom: 5px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  border-radius: 5px;
+  border-radius: 9px;
   background: #343434;
 
   cursor: pointer;
@@ -97,15 +138,15 @@ export default {
 }
 
 .track>*:not(:last-child){
-  padding-right: 10px;
+  padding-right: 15px;
 }
 
 .track>*:not(:first-child){
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
 .track-image, .track-duration{
-  flex: 0 0 70px;
+  flex: 0 0 100px;
 }
 .track-name, .track-album, .track-artist{
   flex: 1;
@@ -113,19 +154,19 @@ export default {
 
 .track-name{
   font-weight: bold;
-  font-size: 18px;
+  font-size: 22px;
   letter-spacing: 0.3px;
 }
 
 .track-image{
-  height: 100%;
+  height: calc(100% - 10px);
 }
 
 .track-image img{
   width: auto;
   height: 100%;
   object-fit: contain;
-  border-radius: 3px;
+  border-radius: 9px;
 }
 
 .track-artist{
@@ -137,33 +178,41 @@ export default {
 }
 
 
-/* .track-list-header{
-  width: 100%;
-  height: fit-content;
-  position: absolute;
-  top: -55px;
+/* Track Actions */
 
+.track-actions{
+  width: fit-content;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 15px;
 }
 
-.track-list-header .track{
-  background: none;
+.track-action{
+  margin: 5px 0;
+  cursor: pointer;
+  width: 45px;
+  height: 45px;
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 9px;
 }
 
-.track-list-header *{
-  color: #eee!important;
-  font-weight: bold!important;
-} */
+.track-action:hover, .track-action:focus{
+  background: #444;
+}
+
+.track-action svg{
+    width: 30px;
+    height: 30px;
+}
+
+.flipped{
+  transform: rotate(180deg);
+}
 </style>
-    <!-- <div class="track-list-header">
-      <div class="track">
-        <div class="track-image"></div>
-        <p class="track-name">Song</p>
-        <p class="track-album">Album</p>
-        <p class="track-artist">Artist</p>
-        <p class="track-duration">Time</p>
-      </div>
-    </div> -->

@@ -29,4 +29,11 @@ export default {
   align-items: center;
   overflow-y: scroll;
 }
+
+.playlists::-webkit-scrollbar {
+    width: 0;
+}
+.playlists::-webkit-scrollbar-thumb, .playlists::-webkit-scrollbar-track {
+    display: none;
+}
 </style>
