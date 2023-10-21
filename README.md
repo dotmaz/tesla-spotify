@@ -1,6 +1,6 @@
 # Tesla Spotify App
 
-An in-car web browser spotify app that can be augmented to the default in-car Spotify app's experience.
+An in-car web browser spotify app that can be augmented to the default in-car Spotify app's experience, adding smart playlist functionality and infinite scroll.
 
 ## Recommended IDE Setup
 
