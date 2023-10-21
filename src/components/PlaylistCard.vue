@@ -26,10 +26,10 @@ export default {
   min-height: 220px;
   max-height: 220px;
 
-  border-radius: 5px;
+  border-radius: 9px;
 
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 15px;
 
   background: #343434;
 
@@ -45,9 +45,9 @@ export default {
 }
 
 .playlist-card img{
-  width: 140px;
-  height: 140px;
-  border-radius: 3px;
+  width: 130px;
+  height: 130px;
+  border-radius: 9px;
 }
 
 .playlist-card p{
