@@ -60,9 +60,6 @@ export default {
 </script>
 
 <style>
-html{
-  transform: scale(0.75);
-}
 .tracks-container{
   width: 100%;
   height: 100%;
