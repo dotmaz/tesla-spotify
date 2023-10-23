@@ -416,7 +416,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
 .login-container {
   width: 100vw;
   height: 100vh;

@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .playlists {
   box-sizing: content-box;
   width: fit-content;

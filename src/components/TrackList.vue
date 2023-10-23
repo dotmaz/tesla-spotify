@@ -85,197 +85,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .tracks-container {
   width: 100%;
   height: 100%;
   position: relative;
   display: flex;
   flex-direction: row;
-}
-
-.track-list {
-  width: 100%;
-  height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-}
-
-.track-list * {
-  user-select: none;
-}
-
-.track-list p {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  line-height: 1.5em;
-  max-height: 3em;
-  text-overflow: ellipsis;
-}
-
-.track-list.loading {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.track {
-  width: 100%;
-  min-height: 100px;
-  padding: 7px;
-  padding-left: 12px;
-  margin-bottom: 5px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-radius: 9px;
-  background: #343434;
-
-  cursor: pointer;
-}
-
-.track-list .track:hover,
-.track-list .track:focus {
-  background: #444;
-}
-
-.track * {
-  font-family: 'Gabarito';
-}
-
-.track > div {
-  display: flex;
-  align-items: center;
-}
-
-.track > *:not(:last-child) {
-  padding-right: 15px;
-}
-
-.track > *:not(:first-child) {
-  padding-left: 15px;
-}
-
-.track-image,
-.track-duration {
-  flex: 0 0 100px;
-}
-.track-name,
-.track-album,
-.track-artist {
-  flex: 1;
-}
-
-.track-name {
-  font-weight: bold;
-  font-size: 22px;
-  letter-spacing: 0.3px;
-}
-
-.track-image {
-  height: calc(100% - 10px);
-}
-
-.track-image img {
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 9px;
-}
-
-.track-artist {
-  color: #aaa;
-}
-
-.active {
-  background: #444;
-}
-
-/* Track Actions */
-
-.track-actions {
-  width: fit-content;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 15px;
-}
-
-.track-action {
-  margin: 5px 0;
-  cursor: pointer;
-  width: 45px;
-  height: 45px;
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 9px;
-}
-
-.track-action:hover,
-.track-action:focus {
-  background: #444;
-}
-
-.track-action svg {
-  width: 30px;
-  height: 30px;
-}
-
-.flipped {
-  transform: rotate(180deg);
-}
-
-/* Queue */
-
-.track-queue {
-  width: fit-content;
-  height: fit-content;
-  padding: 10px;
-  padding-left: 15px;
-  margin-bottom: 15px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  border-radius: 9px;
-  background: #343434;
-  font-weight: bold;
-  font-family: 'Gabarito';
-  font-size: 20px;
-}
-
-.track-queue-body {
-  width: 100%;
-  max-width: 30vw;
-  margin-left: 15px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  overflow-x: scroll;
-  background: #444;
-  border-radius: 7px;
-  padding: 10px;
-}
-
-.track-queue-track {
-  min-width: 40px;
-  min-height: 40px;
-  max-width: 40px;
-  max-height: 40px;
-  margin-right: 10px;
-  border-radius: 9px;
-  overflow: hidden;
 }
 
 .row {
@@ -286,5 +102,179 @@ export default {
 .column {
   display: flex;
   flex-direction: column;
+}
+
+.flipped {
+  transform: rotate(180deg);
+}
+
+.track-list {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+
+  * {
+    user-select: none;
+  }
+
+  p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.5em;
+    max-height: 3em;
+    text-overflow: ellipsis;
+  }
+
+  &.loading {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .track {
+    width: 100%;
+    min-height: 100px;
+    padding: 7px 15px 7px 12px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 9px;
+    background: #343434;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background: #444;
+    }
+
+    * {
+      font-family: 'Gabarito';
+    }
+
+    > div {
+      display: flex;
+      align-items: center;
+    }
+
+    > *:not(:last-child) {
+      padding-right: 15px;
+    }
+
+    > *:not(:first-child) {
+      padding-left: 15px;
+    }
+
+    .track-image,
+    .track-duration {
+      flex: 0 0 100px;
+    }
+
+    .track-name,
+    .track-album,
+    .track-artist {
+      flex: 1;
+    }
+
+    .track-name {
+      font-weight: bold;
+      font-size: 22px;
+      letter-spacing: 0.3px;
+    }
+
+    .track-image {
+      height: calc(100% - 10px);
+
+      img {
+        width: auto;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 9px;
+      }
+    }
+
+    .track-artist {
+      color: #aaa;
+    }
+
+    &.active {
+      background: #444;
+    }
+  }
+}
+
+/* Queue */
+.track-queue {
+  width: fit-content;
+  height: fit-content;
+  padding: 10px 15px 10px 10px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 9px;
+  background: #343434;
+  font-weight: bold;
+  font-family: 'Gabarito';
+  font-size: 20px;
+
+  .track-queue-body {
+    width: 100%;
+    max-width: 30vw;
+    margin-left: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: scroll;
+    background: #444;
+    border-radius: 7px;
+    padding: 10px;
+
+    .track-queue-track {
+      min-width: 40px;
+      min-height: 40px;
+      max-width: 40px;
+      max-height: 40px;
+      margin-right: 10px;
+      border-radius: 9px;
+      overflow: hidden;
+    }
+  }
+}
+
+/* Track Actions */
+.track-actions {
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 15px;
+
+  .track-action {
+    margin: 5px 0;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9px;
+
+    &:hover,
+    &:focus {
+      background: #444;
+    }
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
 }
 </style>

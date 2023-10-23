@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .navigation-bar {
   width: 100%;
   height: 80px;

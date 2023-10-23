@@ -21,45 +21,40 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .playlist-card {
   min-width: 160px;
   max-width: 160px;
   min-height: 220px;
   max-height: 220px;
-
   border-radius: 9px;
-
   margin-bottom: 10px;
   padding: 15px;
-
   background: #343434;
-
   display: flex;
   flex-direction: column;
-
   cursor: pointer;
-}
 
-.playlist-card * {
-  font-family: 'Gabarito';
-  user-select: none;
-}
+  * {
+    font-family: 'Gabarito';
+    user-select: none;
+  }
 
-.playlist-card img {
-  width: 130px;
-  height: 130px;
-  border-radius: 9px;
-}
+  img {
+    width: 130px;
+    height: 130px;
+    border-radius: 9px;
+  }
 
-.playlist-card p {
-  margin-top: 10px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  line-height: 1.5em;
-  max-height: 3em;
-  text-overflow: ellipsis;
+  p {
+    margin-top: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-height: 1.5em;
+    max-height: 3em;
+    text-overflow: ellipsis;
+  }
 }
 </style>

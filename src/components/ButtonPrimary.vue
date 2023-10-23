@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .primary-button {
   width: 120px;
   height: 40px;
