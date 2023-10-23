@@ -4,8 +4,8 @@
       <p class="name">{{ profile.display_name }}</p>
       <p class="email">{{ profile.email }}</p>
     </div>
-   
-    <img class="picture" :src="profile.images?.[profile.images.length-1].url"/>
+
+    <img class="picture" :src="profile.images?.[profile.images.length - 1].url" />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style>
-.profile-card{
+.profile-card {
   width: fit-content;
   height: 100%;
 
@@ -29,29 +29,30 @@ export default {
   align-items: center;
 }
 
-.profile-text{
+.profile-text {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.profile-card .name, .profile-card .email{
+.profile-card .name,
+.profile-card .email {
   margin: 2px 0px;
   text-align: right;
 }
 
-.profile-card .name{
+.profile-card .name {
   font-weight: bold;
   font-size: 20px;
 }
 
-.profile-card .email{
+.profile-card .email {
   font-size: 12px;
   color: #999;
   font-weight: 400;
 }
 
-.profile-card .picture{
+.profile-card .picture {
   width: 50px;
   height: 50px;
   border-radius: 50%;

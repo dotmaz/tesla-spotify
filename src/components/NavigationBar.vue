@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style>
-.navigation-bar{
+.navigation-bar {
   width: 100%;
   height: 80px;
   border-bottom: 1px solid #555;

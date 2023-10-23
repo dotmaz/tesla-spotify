@@ -1,11 +1,10 @@
 <template>
- <button class="primary-button" @click="handler">
-  <slot></slot>
- </button>
+  <button class="primary-button" @click="handler">
+    <slot></slot>
+  </button>
 </template>
 
 <script>
-
 export default {
   name: 'ButtonPrimary',
   props: {
@@ -15,7 +14,7 @@ export default {
 </script>
 
 <style>
-.primary-button{
+.primary-button {
   width: 120px;
   height: 40px;
   border-radius: 5px;

@@ -1,16 +1,14 @@
 <template>
   <div class="tracks-container">
     <div class="row">
-
       <div class="column">
-
         <!-- Queue -->
         <div class="track-queue">
           Up Next
           <div class="track-queue-body">
             <div class="track-queue-track" v-for="track in queue" :key="track.id">
               <div class="track-queue-track-image">
-                <img :src="track.album.images[track.album.images.length-1].url" />
+                <img :src="track.album.images[track.album.images.length - 1].url" />
               </div>
             </div>
           </div>
@@ -18,17 +16,23 @@
 
         <!-- Track List -->
         <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`" ref="trackList">
-          <div v-for="track in tracks" :key="track.track.id" :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`" @click="handleTrackClicked(track.track)">
+          <div
+            v-for="track in tracks"
+            :key="track.track.id"
+            :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`"
+            @click="handleTrackClicked(track.track)"
+          >
             <div class="track-image">
-              <img :src="track.track.album.images[track.track.album.images.length-1].url" />
+              <img :src="track.track.album.images[track.track.album.images.length - 1].url" />
             </div>
             <p class="track-name">{{ track.track.name }}</p>
             <p class="track-album">{{ track.track.album.name }}</p>
-            <p class="track-artist">{{ track.track.artists.map(artist=>artist.name).join(', ') }}</p>
+            <p class="track-artist">
+              {{ track.track.artists.map((artist) => artist.name).join(', ') }}
+            </p>
             <p class="track-duration">{{ formatDuration(track.track.duration_ms) }}</p>
           </div>
         </div>
-
       </div>
 
       <!-- Track Actions -->
@@ -40,13 +44,11 @@
           <font-awesome-icon :icon="['fas', 'arrow-up']" />
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'TrackList',
   props: {
@@ -57,23 +59,23 @@ export default {
     tracksIsLoading: Boolean
   },
   methods: {
-    formatDuration(ms){
-      let totalSeconds = parseInt(ms/1000)
-      const minutes = parseInt(totalSeconds/60)
-      const seconds = parseInt(totalSeconds%60)
+    formatDuration(ms) {
+      let totalSeconds = parseInt(ms / 1000)
+      const minutes = parseInt(totalSeconds / 60)
+      const seconds = parseInt(totalSeconds % 60)
 
       const minutesString = minutes < 10 ? '0' + minutes.toString() : minutes.toString()
       const secondsString = seconds < 10 ? '0' + seconds.toString() : seconds.toString()
 
       return minutesString + ':' + secondsString
     },
-    scrollToBottom(){
+    scrollToBottom() {
       this.$refs.trackList.scrollTo({
         top: this.$refs.trackList.scrollHeight,
         behavior: 'smooth'
       })
     },
-    scrollToTop(){
+    scrollToTop() {
       this.$refs.trackList.scrollTo({
         top: 0,
         behavior: 'smooth'
@@ -84,7 +86,7 @@ export default {
 </script>
 
 <style>
-.tracks-container{
+.tracks-container {
   width: 100%;
   height: 100%;
   position: relative;
@@ -92,7 +94,7 @@ export default {
   flex-direction: row;
 }
 
-.track-list{
+.track-list {
   width: 100%;
   height: 100%;
 
@@ -101,11 +103,11 @@ export default {
   overflow-y: scroll;
 }
 
-.track-list *{
+.track-list * {
   user-select: none;
 }
 
-.track-list p{
+.track-list p {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -115,12 +117,12 @@ export default {
   text-overflow: ellipsis;
 }
 
-.track-list.loading{
+.track-list.loading {
   opacity: 0.5;
   pointer-events: none;
 }
 
-.track{
+.track {
   width: 100%;
   min-height: 100px;
   padding: 7px;
@@ -137,63 +139,66 @@ export default {
   cursor: pointer;
 }
 
-.track-list .track:hover, .track-list .track:focus{
+.track-list .track:hover,
+.track-list .track:focus {
   background: #444;
 }
 
-.track *{
+.track * {
   font-family: 'Gabarito';
 }
 
-.track > div{
+.track > div {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
-.track>*:not(:last-child){
+.track > *:not(:last-child) {
   padding-right: 15px;
 }
 
-.track>*:not(:first-child){
+.track > *:not(:first-child) {
   padding-left: 15px;
 }
 
-.track-image, .track-duration{
+.track-image,
+.track-duration {
   flex: 0 0 100px;
 }
-.track-name, .track-album, .track-artist{
+.track-name,
+.track-album,
+.track-artist {
   flex: 1;
 }
 
-.track-name{
+.track-name {
   font-weight: bold;
   font-size: 22px;
   letter-spacing: 0.3px;
 }
 
-.track-image{
+.track-image {
   height: calc(100% - 10px);
 }
 
-.track-image img{
+.track-image img {
   width: auto;
   height: 100%;
   object-fit: contain;
   border-radius: 9px;
 }
 
-.track-artist{
+.track-artist {
   color: #aaa;
 }
 
-.active{
+.active {
   background: #444;
 }
 
-
 /* Track Actions */
 
-.track-actions{
+.track-actions {
   width: fit-content;
   height: 100%;
   display: flex;
@@ -203,7 +208,7 @@ export default {
   margin-left: 15px;
 }
 
-.track-action{
+.track-action {
   margin: 5px 0;
   cursor: pointer;
   width: 45px;
@@ -216,22 +221,23 @@ export default {
   border-radius: 9px;
 }
 
-.track-action:hover, .track-action:focus{
+.track-action:hover,
+.track-action:focus {
   background: #444;
 }
 
-.track-action svg{
-    width: 30px;
-    height: 30px;
+.track-action svg {
+  width: 30px;
+  height: 30px;
 }
 
-.flipped{
+.flipped {
   transform: rotate(180deg);
 }
 
 /* Queue */
 
-.track-queue{
+.track-queue {
   width: fit-content;
   height: fit-content;
   padding: 10px;
@@ -249,7 +255,7 @@ export default {
   font-size: 20px;
 }
 
-.track-queue-body{
+.track-queue-body {
   width: 100%;
   max-width: 30vw;
   margin-left: 15px;
@@ -262,7 +268,7 @@ export default {
   padding: 10px;
 }
 
-.track-queue-track{
+.track-queue-track {
   min-width: 40px;
   min-height: 40px;
   max-width: 40px;
@@ -272,12 +278,12 @@ export default {
   overflow: hidden;
 }
 
-.row{
+.row {
   display: flex;
   flex-direction: row;
 }
 
-.column{
+.column {
   display: flex;
   flex-direction: column;
 }

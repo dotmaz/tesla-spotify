@@ -1,6 +1,6 @@
 <template>
   <div class="playlist-card">
-    <img :src="playlist.images?.length ? playlist.images[0].url : defaultImage">
+    <img :src="playlist.images?.length ? playlist.images[0].url : defaultImage" />
     <p>{{ playlist.name }}</p>
   </div>
 </template>
@@ -12,15 +12,17 @@ export default {
     playlist: Object
   },
   computed: {
-    defaultImage(){
-      return this.playlist.name === "Liked Songs" ? "https://i1.sndcdn.com/artworks-y6qitUuZoS6y8LQo-5s2pPA-t500x500.jpg" : "https://mynoota.com/api/images/__default.png"
+    defaultImage() {
+      return this.playlist.name === 'Liked Songs'
+        ? 'https://i1.sndcdn.com/artworks-y6qitUuZoS6y8LQo-5s2pPA-t500x500.jpg'
+        : 'https://mynoota.com/api/images/__default.png'
     }
   }
 }
 </script>
 
 <style>
-.playlist-card{
+.playlist-card {
   min-width: 160px;
   max-width: 160px;
   min-height: 220px;
@@ -39,18 +41,18 @@ export default {
   cursor: pointer;
 }
 
-.playlist-card *{
+.playlist-card * {
   font-family: 'Gabarito';
   user-select: none;
 }
 
-.playlist-card img{
+.playlist-card img {
   width: 130px;
   height: 130px;
   border-radius: 9px;
 }
 
-.playlist-card p{
+.playlist-card p {
   margin-top: 10px;
   display: -webkit-box;
   -webkit-box-orient: vertical;

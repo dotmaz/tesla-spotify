@@ -5,19 +5,29 @@
       <ProfileCard :profile="profile"></ProfileCard>
     </NavigationBar>
     <div class="content">
-      <PlaylistList :playlists="playlists" :activePlaylist="activePlaylist" :handlePlaylistClicked="handlePlaylistClicked"></PlaylistList>
-      <TrackList v-if="tracks" :tracks="tracks" :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack" :handleTrackClicked="handleTrackClicked"></TrackList>
+      <PlaylistList
+        :playlists="playlists"
+        :activePlaylist="activePlaylist"
+        :handlePlaylistClicked="handlePlaylistClicked"
+      ></PlaylistList>
+      <TrackList
+        v-if="tracks"
+        :tracks="tracks"
+        :queue="queue"
+        :tracksIsLoading="tracksIsLoading"
+        :activeTrack="activeTrack"
+        :handleTrackClicked="handleTrackClicked"
+      ></TrackList>
     </div>
-    
   </div>
 </template>
 
 <script>
-import ButtonPrimary from "./ButtonPrimary.vue"
-import NavigationBar from "./NavigationBar.vue"
-import PlaylistList from "./PlaylistList.vue";
-import ProfileCard from "./ProfileCard.vue"
-import TrackList from "./TrackList.vue";
+import ButtonPrimary from './ButtonPrimary.vue'
+import NavigationBar from './NavigationBar.vue'
+import PlaylistList from './PlaylistList.vue'
+import ProfileCard from './ProfileCard.vue'
+import TrackList from './TrackList.vue'
 
 export default {
   name: 'DashboardView',
@@ -27,7 +37,7 @@ export default {
     ButtonPrimary,
     TrackList,
     PlaylistList
-},
+  },
   props: {
     profile: Object,
     tracks: Array,
@@ -44,7 +54,7 @@ export default {
 </script>
 
 <style>
-.content{
+.content {
   display: flex;
   flex-direction: row;
   justify-content: center;

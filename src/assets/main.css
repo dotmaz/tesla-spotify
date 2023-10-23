@@ -1,23 +1,24 @@
 @import './base.css';
 
-*{
+* {
   font-family: Roboto;
   font-weight: normal;
   color: #eee;
 }
 
-body{
+body {
   margin: 0;
   background-color: #282828;
 }
 
-body, html {
+body,
+html {
   overflow: hidden;
   height: 100%;
   margin: 0;
 }
 
-p{
+p {
   font-size: 19px;
 }
 
