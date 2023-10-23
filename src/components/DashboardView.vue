@@ -6,7 +6,7 @@
     </NavigationBar>
     <div class="content">
       <PlaylistList :playlists="playlists" :activePlaylist="activePlaylist" :handlePlaylistClicked="handlePlaylistClicked"></PlaylistList>
-      <TrackList v-if="tracks" :tracks="tracks" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack" :handleTrackClicked="handleTrackClicked"></TrackList>
+      <TrackList v-if="tracks" :tracks="tracks" :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack" :handleTrackClicked="handleTrackClicked"></TrackList>
     </div>
     
   </div>
@@ -31,6 +31,7 @@ export default {
   props: {
     profile: Object,
     tracks: Array,
+    queue: Array,
     playlists: Array,
     logout: Function,
     handleTrackClicked: Function,
