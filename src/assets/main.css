@@ -4,6 +4,7 @@
   font-family: Roboto;
   font-weight: normal;
   color: #eee;
+  user-select: none;
 }
 
 body {

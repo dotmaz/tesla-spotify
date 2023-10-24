@@ -1,15 +1,11 @@
 <template>
   <div v-if="profile">
-    <NavigationBar>
-      <ButtonPrimary :handler="logout">Logout</ButtonPrimary>
-      <ProfileCard :profile="profile"></ProfileCard>
-    </NavigationBar>
     <div class="content">
-      <PlaylistList
-        :playlists="playlists"
-        :activePlaylist="activePlaylist"
-        :handlePlaylistClicked="handlePlaylistClicked"
-      ></PlaylistList>
+      <TrackActions
+        :logout="logout"
+        :togglePlaylistsSidebar="togglePlaylistsSidebar"
+        :toggleQueueSidebar="toggleQueueSidebar"
+      ></TrackActions>
       <TrackList
         v-if="tracks"
         :tracks="tracks"
@@ -17,26 +13,30 @@
         :tracksIsLoading="tracksIsLoading"
         :activeTrack="activeTrack"
         :handleTrackClicked="handleTrackClicked"
+        :logout="logout"
       ></TrackList>
+      <SidebarView
+        :activeSidebar="activeSidebar"
+        :playlists="playlists"
+        :queue="queue"
+        :activePlaylist="activePlaylist"
+        :handlePlaylistClicked="handlePlaylistClicked"
+      ></SidebarView>
     </div>
   </div>
 </template>
 
 <script>
-import ButtonPrimary from './ButtonPrimary.vue'
-import NavigationBar from './NavigationBar.vue'
-import PlaylistList from './PlaylistList.vue'
-import ProfileCard from './ProfileCard.vue'
 import TrackList from './TrackList.vue'
+import TrackActions from './TrackActions.vue'
+import SidebarView from './SidebarView.vue'
 
 export default {
   name: 'DashboardView',
   components: {
-    ProfileCard,
-    NavigationBar,
-    ButtonPrimary,
     TrackList,
-    PlaylistList
+    TrackActions,
+    SidebarView
   },
   props: {
     profile: Object,
@@ -48,7 +48,10 @@ export default {
     handlePlaylistClicked: Function,
     activeTrack: Object,
     activePlaylist: Object,
-    tracksIsLoading: Boolean
+    tracksIsLoading: Boolean,
+    activeSidebar: String,
+    togglePlaylistsSidebar: Function,
+    toggleQueueSidebar: Function
   }
 }
 </script>
@@ -58,7 +61,6 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 40px 40px;
-  height: calc(100vh - 80px); /* 80px nav, 80px padding */
+  height: 100vh;
 }
 </style>

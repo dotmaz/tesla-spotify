@@ -15,6 +15,9 @@
     :logout="logout"
     :handleTrackClicked="handleTrackClicked"
     :handlePlaylistClicked="handlePlaylistClicked"
+    :activeSidebar="activeSidebar"
+    :togglePlaylistsSidebar="togglePlaylistsSidebar"
+    :toggleQueueSidebar="toggleQueueSidebar"
   >
   </DashboardView>
   <div v-else class="login-container">
@@ -56,7 +59,8 @@ export default {
       activeTrack: null,
       tracksIsLoading: true,
       playbackState: null,
-      allowPolling: true
+      allowPolling: true,
+      activeSidebar: false
     }
   },
   methods: {
@@ -233,7 +237,6 @@ export default {
       this.clearQueryParams()
       this.profile = await this.getProfile()
       this.playbackState = await this.getPlaybackState()
-      console.log('playback', this.playbackState)
       this.playlists = [
         { name: 'Liked Songs', id: 0, uri: `spotify:user:${this.profile.display_name}:collection` },
         ...(await this.getPlaylists()).items
@@ -241,16 +244,16 @@ export default {
       this.activePlaylist = this.playlists[0]
       this.savedTracks = await this.getSavedTracks()
       this.queue = (await this.getQueue()).queue
-      console.log('queue', this.queue)
+
       this.tracksIsLoading = false
       setInterval(this.pollPlaybackState, 1000)
 
       // Get all saved tracks
-      while (this.savedTracks.next) {
-        const nextTracks = await this.getSavedTracks(this.savedTracks.next)
-        this.savedTracks.next = nextTracks.next
-        this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
-      }
+      // while (this.savedTracks.next) {
+      //   const nextTracks = await this.getSavedTracks(this.savedTracks.next)
+      //   this.savedTracks.next = nextTracks.next
+      //   this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
+      // }
     },
 
     // Poll for playback state, not allowing data change when disabled for UI purposes
@@ -303,6 +306,14 @@ export default {
         tracksNext = nextTracks.next
         this.playlistTracks = this.playlistTracks.concat(nextTracks.items)
       }
+    },
+
+    togglePlaylistsSidebar() {
+      this.activeSidebar = this.activeSidebar === 'playlists' ? false : 'playlists'
+    },
+
+    toggleQueueSidebar() {
+      this.activeSidebar = this.activeSidebar === 'queue' ? false : 'queue'
     },
 
     /* API */
@@ -371,6 +382,18 @@ export default {
 
     async getQueue() {
       const response = await fetch('https://api.spotify.com/v1/me/player/queue', {
+        headers: {
+          Authorization: 'Bearer ' + this.accessToken
+        }
+      })
+
+      if (response.status === 204) return true
+      const data = await response.json()
+      return data
+    },
+
+    async getAvailableDevices() {
+      const response = await fetch('https://api.spotify.com/v1/me/player/devices', {
         headers: {
           Authorization: 'Bearer ' + this.accessToken
         }

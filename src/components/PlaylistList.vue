@@ -29,10 +29,10 @@ export default {
   box-sizing: content-box;
   width: fit-content;
   height: 100%;
-  padding: 0 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
   overflow-y: scroll;
+  padding: 15px 0;
 }
 </style>

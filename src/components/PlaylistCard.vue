@@ -37,7 +37,6 @@ export default {
 
   * {
     font-family: 'Gabarito';
-    user-select: none;
   }
 
   img {
