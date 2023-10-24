@@ -1,49 +1,20 @@
 <template>
-  <div class="tracks-container">
-    <div class="row">
-      <div class="column">
-        <!-- Queue -->
-        <div class="track-queue">
-          Up Next
-          <div class="track-queue-body">
-            <div class="track-queue-track" v-for="track in queue" :key="track.id">
-              <div class="track-queue-track-image">
-                <img :src="track.album.images[track.album.images.length - 1].url" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Track List -->
-        <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`" ref="trackList">
-          <div
-            v-for="track in tracks"
-            :key="track.track.id"
-            :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`"
-            @click="handleTrackClicked(track.track)"
-          >
-            <div class="track-image">
-              <img :src="track.track.album.images[track.track.album.images.length - 1].url" />
-            </div>
-            <p class="track-name">{{ track.track.name }}</p>
-            <p class="track-album">{{ track.track.album.name }}</p>
-            <p class="track-artist">
-              {{ track.track.artists.map((artist) => artist.name).join(', ') }}
-            </p>
-            <p class="track-duration">{{ formatDuration(track.track.duration_ms) }}</p>
-          </div>
-        </div>
+  <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`" ref="trackList">
+    <div
+      v-for="track in tracks"
+      :key="track.track.id"
+      :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`"
+      @click="handleTrackClicked(track.track)"
+    >
+      <div class="track-image">
+        <img :src="track.track.album.images[track.track.album.images.length - 1].url" />
       </div>
-
-      <!-- Track Actions -->
-      <div class="track-actions">
-        <div @click="scrollToTop" class="track-action">
-          <font-awesome-icon :icon="['fas', 'arrow-up']" />
-        </div>
-        <div @click="scrollToBottom" class="track-action flipped">
-          <font-awesome-icon :icon="['fas', 'arrow-up']" />
-        </div>
-      </div>
+      <p class="track-name">{{ track.track.name }}</p>
+      <p class="track-album">{{ track.track.album.name }}</p>
+      <p class="track-artist">
+        {{ track.track.artists.map((artist) => artist.name).join(', ') }}
+      </p>
+      <p class="track-duration">{{ formatDuration(track.track.duration_ms) }}</p>
     </div>
   </div>
 </template>
@@ -68,32 +39,12 @@ export default {
       const secondsString = seconds < 10 ? '0' + seconds.toString() : seconds.toString()
 
       return minutesString + ':' + secondsString
-    },
-    scrollToBottom() {
-      this.$refs.trackList.scrollTo({
-        top: this.$refs.trackList.scrollHeight,
-        behavior: 'smooth'
-      })
-    },
-    scrollToTop() {
-      this.$refs.trackList.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
     }
   }
 }
 </script>
 
 <style lang="scss">
-.tracks-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-}
-
 .row {
   display: flex;
   flex-direction: row;
@@ -107,6 +58,9 @@ export default {
 .flipped {
   transform: rotate(180deg);
 }
+.right {
+  transform: rotate(90deg);
+}
 
 .track-list {
   width: 100%;
@@ -114,10 +68,7 @@ export default {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-
-  * {
-    user-select: none;
-  }
+  padding-right: 15px;
 
   p {
     display: -webkit-box;
@@ -202,78 +153,6 @@ export default {
 
     &.active {
       background: #444;
-    }
-  }
-}
-
-/* Queue */
-.track-queue {
-  width: fit-content;
-  height: fit-content;
-  padding: 10px 15px 10px 10px;
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 9px;
-  background: #343434;
-  font-weight: bold;
-  font-family: 'Gabarito';
-  font-size: 20px;
-
-  .track-queue-body {
-    width: 100%;
-    max-width: 30vw;
-    margin-left: 15px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow-x: scroll;
-    background: #444;
-    border-radius: 7px;
-    padding: 10px;
-
-    .track-queue-track {
-      min-width: 40px;
-      min-height: 40px;
-      max-width: 40px;
-      max-height: 40px;
-      margin-right: 10px;
-      border-radius: 9px;
-      overflow: hidden;
-    }
-  }
-}
-
-/* Track Actions */
-.track-actions {
-  width: fit-content;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  margin-left: 15px;
-
-  .track-action {
-    margin: 5px 0;
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 9px;
-
-    &:hover,
-    &:focus {
-      background: #444;
-    }
-
-    svg {
-      width: 30px;
-      height: 30px;
     }
   }
 }
