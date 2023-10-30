@@ -27,12 +27,12 @@
 </template>
 
 <script>
-import TrackList from './TrackList.vue'
-import TrackActions from './TrackActions.vue'
-import SidebarView from './SidebarView.vue'
+import TrackList from '../components/TrackList.vue'
+import TrackActions from '../components/TrackActions.vue'
+import SidebarView from '../components/SidebarView.vue'
 
 export default {
-  name: 'DashboardView',
+  name: 'CarDashboardView',
   components: {
     TrackList,
     TrackActions,

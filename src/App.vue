@@ -1,5 +1,5 @@
 <template>
-  <DashboardView
+  <CarDashboardView
     v-if="loggedIn"
     :profile="profile"
     :playlists="playlists"
@@ -19,7 +19,7 @@
     :togglePlaylistsSidebar="togglePlaylistsSidebar"
     :toggleQueueSidebar="toggleQueueSidebar"
   >
-  </DashboardView>
+  </CarDashboardView>
   <div v-else class="login-container">
     <ButtonPrimary
       :handler="
@@ -34,12 +34,12 @@
 
 <script>
 import ButtonPrimary from './components/ButtonPrimary.vue'
-import DashboardView from './components/DashboardView.vue'
+import CarDashboardView from './views/CarDashboardView.vue'
 
 export default {
   name: 'App',
   components: {
-    DashboardView,
+    CarDashboardView,
     ButtonPrimary
   },
   data() {
@@ -60,7 +60,7 @@ export default {
       tracksIsLoading: true,
       playbackState: null,
       allowPolling: true,
-      activeSidebar: false
+      activeSidebar: null
     }
   },
   methods: {
@@ -246,9 +246,9 @@ export default {
       this.queue = (await this.getQueue()).queue
 
       this.tracksIsLoading = false
-      setInterval(this.pollPlaybackState, 1000)
+      // setInterval(this.pollPlaybackState, 1000)
 
-      Get all saved tracks
+      // Get all saved tracks
       while (this.savedTracks.next) {
         const nextTracks = await this.getSavedTracks(this.savedTracks.next)
         this.savedTracks.next = nextTracks.next
@@ -309,11 +309,11 @@ export default {
     },
 
     togglePlaylistsSidebar() {
-      this.activeSidebar = this.activeSidebar === 'playlists' ? false : 'playlists'
+      this.activeSidebar = this.activeSidebar === 'playlists' ? null : 'playlists'
     },
 
     toggleQueueSidebar() {
-      this.activeSidebar = this.activeSidebar === 'queue' ? false : 'queue'
+      this.activeSidebar = this.activeSidebar === 'queue' ? null : 'queue'
     },
 
     /* API */

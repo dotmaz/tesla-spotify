@@ -1,5 +1,9 @@
 <template>
-  <div :class="`track-list ${tracksIsLoading ? 'loading' : ''}`" ref="trackList">
+  <div
+    :class="`track-list ${tracksIsLoading ? 'loading' : ''}`"
+    ref="trackList"
+    @scroll="handlePlaylistsScrolled"
+  >
     <div
       v-for="track in tracks"
       :key="track.track.id"
@@ -39,6 +43,9 @@ export default {
       const secondsString = seconds < 10 ? '0' + seconds.toString() : seconds.toString()
 
       return minutesString + ':' + secondsString
+    },
+    handlePlaylistsScrolled(e) {
+      console.log('Scrolled!', e.target.scrollHeight, e.target.scrollTop, e.target.clientHeight)
     }
   }
 }
