@@ -248,12 +248,12 @@ export default {
       this.tracksIsLoading = false
       setInterval(this.pollPlaybackState, 1000)
 
-      // Get all saved tracks
-      // while (this.savedTracks.next) {
-      //   const nextTracks = await this.getSavedTracks(this.savedTracks.next)
-      //   this.savedTracks.next = nextTracks.next
-      //   this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
-      // }
+      Get all saved tracks
+      while (this.savedTracks.next) {
+        const nextTracks = await this.getSavedTracks(this.savedTracks.next)
+        this.savedTracks.next = nextTracks.next
+        this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
+      }
     },
 
     // Poll for playback state, not allowing data change when disabled for UI purposes
