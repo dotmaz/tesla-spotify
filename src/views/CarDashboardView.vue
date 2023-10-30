@@ -13,7 +13,7 @@
         :tracksIsLoading="tracksIsLoading"
         :activeTrack="activeTrack"
         :handleTrackClicked="handleTrackClicked"
-        :logout="logout"
+        :loadMoreTracks="loadMoreTracks"
       ></TrackList>
       <SidebarView
         :activeSidebar="activeSidebar"
@@ -40,7 +40,7 @@ export default {
   },
   props: {
     profile: Object,
-    tracks: Array,
+    tracks: Object,
     queue: Array,
     playlists: Array,
     logout: Function,
@@ -51,7 +51,8 @@ export default {
     tracksIsLoading: Boolean,
     activeSidebar: String,
     togglePlaylistsSidebar: Function,
-    toggleQueueSidebar: Function
+    toggleQueueSidebar: Function,
+    loadMoreTracks: Function
   }
 }
 </script>

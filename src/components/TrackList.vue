@@ -5,7 +5,7 @@
     @scroll="handlePlaylistsScrolled"
   >
     <div
-      v-for="track in tracks"
+      v-for="track in tracks.items"
       :key="track.track.id"
       :class="`track ${track.track.id === activeTrack?.id ? 'active' : ''}`"
       @click="handleTrackClicked(track.track)"
@@ -24,14 +24,23 @@
 </template>
 
 <script>
+// import { debounce } from '../js/utils.js' // adjust the path as necessary
+
 export default {
   name: 'TrackList',
+  data() {
+    return {
+      isFetchingTracks: false,
+      debouncing: false
+    }
+  },
   props: {
-    tracks: Array,
+    tracks: Object,
     queue: Array,
     handleTrackClicked: Function,
     activeTrack: Object,
-    tracksIsLoading: Boolean
+    tracksIsLoading: Boolean,
+    loadMoreTracks: Function
   },
   methods: {
     formatDuration(ms) {
@@ -45,7 +54,27 @@ export default {
       return minutesString + ':' + secondsString
     },
     handlePlaylistsScrolled(e) {
-      console.log('Scrolled!', e.target.scrollHeight, e.target.scrollTop, e.target.clientHeight)
+      if (this.isFetchingTracks || !this.tracks.next) return
+      if (!this.debouncing) {
+        this.debouncing = true
+        this.handlePlaylistsScrolledDebounced(e)
+        setTimeout(() => {
+          this.debouncing = false
+        }, 250)
+      }
+    },
+    async handlePlaylistsScrolledDebounced(e) {
+      console.log('scrolling')
+      this.isFetchingTracks = true
+      const el = e.target
+      const scrollPosition = el.scrollTop + el.clientHeight
+      const scrollHeight = el.scrollHeight
+
+      if (scrollPosition >= scrollHeight / 2) {
+        console.log('past half!')
+        await this.loadMoreTracks()
+      }
+      this.isFetchingTracks = false
     }
   }
 }

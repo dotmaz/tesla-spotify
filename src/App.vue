@@ -5,8 +5,8 @@
     :playlists="playlists"
     :tracks="
       activePlaylist && activePlaylist.id !== 0 && playlistTracks
-        ? playlistTracks
-        : savedTracks?.items
+        ? { items: playlistTracks }
+        : savedTracks
     "
     :queue="queue"
     :tracksIsLoading="tracksIsLoading"
@@ -18,6 +18,7 @@
     :activeSidebar="activeSidebar"
     :togglePlaylistsSidebar="togglePlaylistsSidebar"
     :toggleQueueSidebar="toggleQueueSidebar"
+    :loadMoreTracks="loadMoreTracks"
   >
   </CarDashboardView>
   <div v-else class="login-container">
@@ -249,7 +250,15 @@ export default {
       // setInterval(this.pollPlaybackState, 1000)
 
       // Get all saved tracks
-      while (this.savedTracks.next) {
+      // while (this.savedTracks.next) {
+      //   const nextTracks = await this.getSavedTracks(this.savedTracks.next)
+      //   this.savedTracks.next = nextTracks.next
+      //   this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
+      // }
+    },
+
+    async loadMoreTracks() {
+      if (this.savedTracks.next) {
         const nextTracks = await this.getSavedTracks(this.savedTracks.next)
         this.savedTracks.next = nextTracks.next
         this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
