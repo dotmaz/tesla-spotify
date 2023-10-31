@@ -64,14 +64,12 @@ export default {
       }
     },
     async handlePlaylistsScrolledDebounced(e) {
-      console.log('scrolling')
       this.isFetchingTracks = true
       const el = e.target
       const scrollPosition = el.scrollTop + el.clientHeight
       const scrollHeight = el.scrollHeight
 
       if (scrollPosition >= scrollHeight / 2) {
-        console.log('past half!')
         await this.loadMoreTracks()
       }
       this.isFetchingTracks = false
