@@ -1,6 +1,20 @@
 <template>
+  <DashboardView
+    v-if="loggedIn && dashboardView === 'default'"
+    :profile="profile"
+    :tracks="
+      activePlaylist && activePlaylist.id !== 0 && playlistTracks
+        ? { items: playlistTracks }
+        : savedTracks
+    "
+    :queue="queue"
+    :tracksIsLoading="tracksIsLoading"
+    :activeTrack="activeTrack"
+    :handleTrackClicked="handleTrackClicked"
+    :loadMoreTracks="loadMoreTracks"
+  ></DashboardView>
   <CarDashboardView
-    v-if="loggedIn"
+    v-else-if="loggedIn && dashboardView === 'car'"
     :profile="profile"
     :playlists="playlists"
     :tracks="
@@ -36,15 +50,18 @@
 <script>
 import ButtonPrimary from './components/ButtonPrimary.vue'
 import CarDashboardView from './views/CarDashboardView.vue'
+import DashboardView from './views/DashboardView.vue'
 
 export default {
   name: 'App',
   components: {
     CarDashboardView,
+    DashboardView,
     ButtonPrimary
   },
   data() {
     return {
+      dashboardView: 'default',
       clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
       redirectUri: import.meta.env.VITE_SPOTIFY_REDIRECT_URL,
       accessToken: null,

@@ -1,28 +1,26 @@
 <template>
-  <div v-if="profile">
-    <div class="content">
-      <TrackActions
-        :logout="logout"
-        :togglePlaylistsSidebar="togglePlaylistsSidebar"
-        :toggleQueueSidebar="toggleQueueSidebar"
-      ></TrackActions>
-      <TrackList
-        v-if="tracks"
-        :tracks="tracks"
-        :queue="queue"
-        :tracksIsLoading="tracksIsLoading"
-        :activeTrack="activeTrack"
-        :handleTrackClicked="handleTrackClicked"
-        :loadMoreTracks="loadMoreTracks"
-      ></TrackList>
-      <SidebarView
-        :activeSidebar="activeSidebar"
-        :playlists="playlists"
-        :queue="queue"
-        :activePlaylist="activePlaylist"
-        :handlePlaylistClicked="handlePlaylistClicked"
-      ></SidebarView>
-    </div>
+  <div class="content" v-if="profile">
+    <TrackActions
+      :logout="logout"
+      :togglePlaylistsSidebar="togglePlaylistsSidebar"
+      :toggleQueueSidebar="toggleQueueSidebar"
+    ></TrackActions>
+    <TrackList
+      v-if="tracks"
+      :tracks="tracks"
+      :queue="queue"
+      :tracksIsLoading="tracksIsLoading"
+      :activeTrack="activeTrack"
+      :handleTrackClicked="handleTrackClicked"
+      :loadMoreTracks="loadMoreTracks"
+    ></TrackList>
+    <SidebarView
+      :activeSidebar="activeSidebar"
+      :playlists="playlists"
+      :queue="queue"
+      :activePlaylist="activePlaylist"
+      :handlePlaylistClicked="handlePlaylistClicked"
+    ></SidebarView>
   </div>
 </template>
 
