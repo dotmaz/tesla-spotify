@@ -61,7 +61,7 @@ export default {
   },
   data() {
     return {
-      dashboardView: 'default',
+      dashboardView: 'car',
       clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
       redirectUri: import.meta.env.VITE_SPOTIFY_REDIRECT_URL,
       accessToken: null,
