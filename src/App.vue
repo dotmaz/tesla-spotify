@@ -1,49 +1,23 @@
 <template>
-  <DashboardView
-    v-if="loggedIn && dashboardView === 'default'"
-    :profile="profile"
-    :tracks="
-      activePlaylist && activePlaylist.id !== 0 && playlistTracks
-        ? { items: playlistTracks }
-        : savedTracks
-    "
-    :queue="queue"
-    :tracksIsLoading="tracksIsLoading"
-    :activeTrack="activeTrack"
-    :handleTrackClicked="handleTrackClicked"
-    :loadMoreTracks="loadMoreTracks"
-  ></DashboardView>
-  <CarDashboardView
-    v-else-if="loggedIn && dashboardView === 'car'"
-    :profile="profile"
-    :playlists="playlists"
-    :tracks="
-      activePlaylist && activePlaylist.id !== 0 && playlistTracks
-        ? { items: playlistTracks }
-        : savedTracks
-    "
-    :queue="queue"
-    :tracksIsLoading="tracksIsLoading"
-    :activeTrack="activeTrack"
-    :activePlaylist="activePlaylist"
-    :logout="logout"
-    :handleTrackClicked="handleTrackClicked"
-    :handlePlaylistClicked="handlePlaylistClicked"
-    :activeSidebar="activeSidebar"
-    :togglePlaylistsSidebar="togglePlaylistsSidebar"
-    :toggleQueueSidebar="toggleQueueSidebar"
-    :loadMoreTracks="loadMoreTracks"
-  >
+  <DashboardView v-if="loggedIn && dashboardView === 'default'" :getRecommendedPlaylist="getRecommendedPlaylist"
+    :profile="profile" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+      ? { items: playlistTracks }
+      : savedTracks
+      " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
+    :handleTrackClicked="handleTrackClicked" :loadMoreTracks="loadMoreTracks"></DashboardView>
+  <CarDashboardView v-else-if="loggedIn && dashboardView === 'car'" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+    ? { items: playlistTracks }
+    : savedTracks
+    " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack" :activePlaylist="activePlaylist"
+    :logout="logout" :handleTrackClicked="handleTrackClicked" :handlePlaylistClicked="handlePlaylistClicked"
+    :activeSidebar="activeSidebar" :togglePlaylistsSidebar="togglePlaylistsSidebar"
+    :toggleQueueSidebar="toggleQueueSidebar" :loadMoreTracks="loadMoreTracks">
   </CarDashboardView>
   <div v-else class="login-container">
-    <ButtonPrimary
-      :handler="
-        () => {
-          login(true)
-        }
-      "
-      >Login</ButtonPrimary
-    >
+    <ButtonPrimary :handler="() => {
+      login(true)
+    }
+      ">Login</ButtonPrimary>
   </div>
 </template>
 
@@ -61,7 +35,7 @@ export default {
   },
   data() {
     return {
-      dashboardView: 'car',
+      dashboardView: 'default',
       clientId: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
       redirectUri: import.meta.env.VITE_SPOTIFY_REDIRECT_URL,
       accessToken: null,
@@ -237,6 +211,11 @@ export default {
       this.requestCredentials()
     },
 
+    async initializeGenres() {
+      const genres = await this.getGenres();
+      console.log("Genres", genres);
+    },
+
     logout() {
       localStorage.clear()
       window.location.href = '/'
@@ -343,6 +322,31 @@ export default {
     },
 
     /* API */
+    async getRecommendedPlaylist(playlistQuery) {
+      const response = await fetch(`https://api.spotify.com/v1/recommendations?${playlistQuery}`, {
+        headers: {
+          Authorization: 'Bearer ' + this.accessToken
+        }
+      })
+
+      if (response.status === 204) return true
+      const data = await response.json()
+      return data
+    },
+
+    async getGenres() {
+      const response = await fetch('https://api.spotify.com/v1/recommendations/available-genre-seeds', {
+        headers: {
+          Authorization: 'Bearer ' + this.accessToken
+        }
+      })
+
+      if (response.status === 204) return true
+      const data = await response.json()
+      return data
+    },
+
+
     async getProfile() {
       const response = await fetch('https://api.spotify.com/v1/me', {
         headers: {
@@ -451,7 +455,8 @@ export default {
 
   mounted() {
     // Automatically login every time you open the app
-    this.login()
+    this.login();
+    // this.initializeGenres();
   },
 
   watch: {
