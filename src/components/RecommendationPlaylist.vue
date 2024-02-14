@@ -151,6 +151,10 @@ export default {
                 display: flex;
                 flex-direction: column;
 
+                * {
+                    color: #333 !important;
+                }
+
                 .song-title {
                     font-family: Inter;
                     display: -webkit-box;
