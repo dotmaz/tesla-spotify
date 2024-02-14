@@ -4,7 +4,8 @@
       ? { items: playlistTracks }
       : savedTracks
       " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
-    :handleTrackClicked="handleTrackClicked" :loadMoreTracks="loadMoreTracks"></DashboardView>
+    :handleTrackClicked="handleTrackClicked" :loadMoreTracks="loadMoreTracks" :createPlaylist="createPlaylist"
+    :addItemsToPlaylist="addItemsToPlaylist"></DashboardView>
   <CarDashboardView v-else-if="loggedIn && dashboardView === 'car'" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
     ? { items: playlistTracks }
     : savedTracks
@@ -87,8 +88,18 @@ export default {
       let codeVerifier = this.generateRandomString(128)
       this.generateCodeChallenge(codeVerifier).then((codeChallenge) => {
         let state = this.generateRandomString(16)
-        let scope =
-          'user-read-private user-read-email playlist-read-private user-library-read user-modify-playback-state user-read-playback-state streaming'
+        let scopes = [
+          "user-read-private",
+          "user-read-email",
+          "playlist-read-private",
+          "user-library-read",
+          "user-modify-playback-state",
+          "user-read-playback-state",
+          "streaming",
+          "playlist-modify-public",
+          "playlist-modify-private"
+        ]
+        let scope = scopes.join(' ');
 
         localStorage.setItem('code_verifier', codeVerifier)
 
@@ -364,6 +375,34 @@ export default {
         headers: {
           Authorization: 'Bearer ' + this.accessToken
         }
+      })
+
+      if (response.status === 204) return true
+      const data = await response.json()
+      return data
+    },
+
+    async createPlaylist(body) {
+      const response = await fetch(`https://api.spotify.com/v1/users/${this.profile.id}/playlists`, {
+        headers: {
+          Authorization: 'Bearer ' + this.accessToken
+        },
+        method: 'POST',
+        body: JSON.stringify(body)
+      })
+
+      if (response.status === 204) return true
+      const data = await response.json()
+      return data
+    },
+
+    async addItemsToPlaylist(playlistId, body) {
+      const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
+        headers: {
+          Authorization: 'Bearer ' + this.accessToken
+        },
+        method: 'POST',
+        body: JSON.stringify(body)
       })
 
       if (response.status === 204) return true

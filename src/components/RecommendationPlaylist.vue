@@ -2,13 +2,14 @@
     <div class="recommendation-playlist">
         <h1>Here’s your music therapy for the day!</h1>
         <img src="../assets/playlist.png" />
-        <input type="text" placeholder="Playlist #01" />
+        <input v-model="playlistName" type="text" placeholder="Playlist #01" />
         <div class="seperator"></div>
         <div class="actions">
-            <PrimaryButton :backgroundColor="`#B9F8AF`" :borderColor="`transparent`">
+            <!-- <PrimaryButton :backgroundColor="`#B9F8AF`" :borderColor="`transparent`">
                 Add to Playlist
-            </PrimaryButton>
-            <PrimaryButton :backgroundColor="`#1DB954`" :borderColor="`transparent`">
+            </PrimaryButton> -->
+            <PrimaryButton v-if="newPlaylist" :click="createSpotifyPlaylist" :backgroundColor="`#1DB954`"
+                :borderColor="`transparent`">
                 Add to Spotify <img id="spotify" src="../assets/spotify.png" />
             </PrimaryButton>
         </div>
@@ -37,13 +38,35 @@ export default {
         PrimaryButton
     },
     props: {
-        newPlaylist: Array
+        createPlaylist: Function,
+        addItemsToPlaylist: Function,
+        newPlaylist: Array,
+
     },
     data: () => {
         return {
+            playlistName: ""
         }
     },
     methods: {
+        async createSpotifyPlaylist() {
+            console.log("new playlist", this.newPlaylist);
+            const createBody = {
+                "name": `${this.playlistName} | Therasonic`,
+                "description": `Music!`,
+                "public": false
+            };
+            const newPlaylist = await this.createPlaylist(createBody);
+
+            const updateBody = {
+                "uris": this.newPlaylist.map(song => song.uri),
+                "position": "0"
+            }
+            const updateRes = await this.addItemsToPlaylist(newPlaylist.id, updateBody);
+
+            console.log("Created playlist!", newPlaylist);
+            console.log("Updated playlist!", updateRes)
+        }
     }
 }
 </script>

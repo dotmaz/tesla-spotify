@@ -13,7 +13,8 @@
     <LoadingScreen v-if="state === 'loading'" :finishGeneratePlaylist="finishGeneratePlaylist" />
     <Home v-if="state === 'home'" />
     <ReccomendationEngine :generatePlaylist="generatePlaylist" v-if="state === 'engine'" />
-    <RecommendationPlaylist v-if="state === 'generate'" :newPlaylist="newPlaylist.tracks" />
+    <RecommendationPlaylist v-if="state === 'generate'" :newPlaylist="newPlaylist.tracks" :createPlaylist="createPlaylist"
+      :addItemsToPlaylist="addItemsToPlaylist" />
   </div>
 </template>
 <script>
@@ -39,7 +40,9 @@ export default {
     activeTrack: Object,
     tracksIsLoading: Boolean,
     loadMoreTracks: Function,
-    getRecommendedPlaylist: Function
+    getRecommendedPlaylist: Function,
+    createPlaylist: Function,
+    addItemsToPlaylist: Function
   },
   data: () => {
     return {
@@ -121,7 +124,6 @@ export default {
         setTimeout(this.finishGeneratePlaylist, 5000); // Check every second
         return;
       }
-      console.log("Got the bag", this.newPlaylist);
       this.state = 'generate';
     },
 
@@ -135,7 +137,6 @@ export default {
         instrumentalness: 0,
       };
       const count = moods.length;
-      console.log("mooo", moods);
 
       moods.forEach(mood => {
         if (this.moodProfiles[mood]) {
