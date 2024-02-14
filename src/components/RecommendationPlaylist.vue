@@ -8,9 +8,10 @@
             <!-- <PrimaryButton :backgroundColor="`#B9F8AF`" :borderColor="`transparent`">
                 Add to Playlist
             </PrimaryButton> -->
-            <PrimaryButton v-if="newPlaylist" :click="createSpotifyPlaylist" :backgroundColor="`#1DB954`"
-                :borderColor="`transparent`">
-                Add to Spotify <img id="spotify" src="../assets/spotify.png" />
+            <PrimaryButton v-if="newPlaylist" :click="createdPlaylist ? openSpotifyPlaylist : createSpotifyPlaylist"
+                :backgroundColor="`#1DB954`" :borderColor="`transparent`">
+                {{ createdPlaylist ? "Open In Spotify" : "Add To Spotify" }} <img id="spotify"
+                    src="../assets/spotify.png" />
             </PrimaryButton>
         </div>
         <div class="seperator"></div>
@@ -45,7 +46,8 @@ export default {
     },
     data: () => {
         return {
-            playlistName: ""
+            playlistName: "",
+            createdPlaylist: null
         }
     },
     methods: {
@@ -56,16 +58,18 @@ export default {
                 "description": `Music!`,
                 "public": false
             };
-            const newPlaylist = await this.createPlaylist(createBody);
+            const createdPlaylist = await this.createPlaylist(createBody);
 
             const updateBody = {
                 "uris": this.newPlaylist.map(song => song.uri),
                 "position": "0"
             }
-            const updateRes = await this.addItemsToPlaylist(newPlaylist.id, updateBody);
+            const updateRes = await this.addItemsToPlaylist(createdPlaylist.id, updateBody);
 
-            console.log("Created playlist!", newPlaylist);
-            console.log("Updated playlist!", updateRes)
+            this.createdPlaylist = createdPlaylist;
+        },
+        async openSpotifyPlaylist() {
+            window.open(this.createdPlaylist.external_urls.spotify, "_blank");
         }
     }
 }
