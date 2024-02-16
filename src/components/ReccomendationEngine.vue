@@ -1,5 +1,6 @@
 <template>
     <div class="recommendation-engine">
+        <img src="../assets/close.png" class="go-home" @click="goHome" />
         <div class="page" id="mood-page" v-if="page === 0">
             <h1>What are you<br><span class="green">feeling</span><br>today?</h1>
             <p>Pick as many as you want... some days can be complicated</p>
@@ -50,7 +51,8 @@ export default {
         PrimaryButton
     },
     props: {
-        generatePlaylist: Function
+        generatePlaylist: Function,
+        goHome: Function
     },
     data: () => {
         return {
@@ -96,6 +98,14 @@ export default {
 <style lang="scss">
 .seperator {
     margin-bottom: 30px;
+}
+
+.go-home {
+    position: fixed;
+    top: 50px;
+    right: 35px;
+    width: 40px;
+    height: 40px;
 }
 
 .recommendation-engine {

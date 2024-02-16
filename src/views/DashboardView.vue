@@ -11,14 +11,16 @@
       :loadMoreTracks="loadMoreTracks"
     ></TrackList> -->
     <LoadingScreen v-if="state === 'loading'" :finishGeneratePlaylist="finishGeneratePlaylist" />
-    <Home v-if="state === 'home'" />
-    <ReccomendationEngine :generatePlaylist="generatePlaylist" v-if="state === 'engine'" />
+    <Home v-if="state === 'home'" :profile="profile" :goToGallery="goToGallery" :goToEngine="goToEngine" />
+    <Gallery v-if="state === 'gallery'" :goHome="goHome" />
+    <ReccomendationEngine v-if="state === 'engine'" :generatePlaylist="generatePlaylist" :goHome="goHome" />
     <RecommendationPlaylist v-if="state === 'generate'" :newPlaylist="newPlaylist.tracks" :createPlaylist="createPlaylist"
-      :addItemsToPlaylist="addItemsToPlaylist" />
+      :addItemsToPlaylist="addItemsToPlaylist" :goHome="goHome" />
   </div>
 </template>
 <script>
 import Home from '../components/Home.vue';
+import Gallery from '../components/Gallery.vue';
 import LoadingScreen from '../components/LoadingScreen.vue';
 import ReccomendationEngine from '../components/ReccomendationEngine.vue';
 import RecommendationPlaylist from '../components/RecommendationPlaylist.vue';
@@ -30,6 +32,7 @@ export default {
     ReccomendationEngine,
     RecommendationPlaylist,
     Home,
+    Gallery,
     LoadingScreen
   },
   props: {
@@ -153,6 +156,18 @@ export default {
       });
 
       return averageProfile;
+    },
+
+    goHome() {
+      this.state = 'home';
+    },
+
+    goToGallery() {
+      this.state = 'gallery';
+    },
+
+    goToEngine() {
+      this.state = 'engine';
     }
   }
 }

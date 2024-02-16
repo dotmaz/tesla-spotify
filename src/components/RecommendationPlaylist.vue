@@ -1,7 +1,8 @@
 <template>
+    <img src="../assets/close_white.png" class="go-home" @click="goHome" />
     <div class="recommendation-playlist">
         <h1>Here’s your music therapy for the day!</h1>
-        <img src="../assets/playlist.png" />
+        <img class="playlist-album" src="../assets/playlist.png" />
         <input v-model="playlistName" type="text" placeholder="Playlist #01" />
         <div class="seperator"></div>
         <div class="actions">
@@ -45,6 +46,7 @@ export default {
         createPlaylist: Function,
         addItemsToPlaylist: Function,
         newPlaylist: Array,
+        goHome: Function
 
     },
     data: () => {
@@ -87,7 +89,7 @@ export default {
     align-items: center;
     width: 100%;
     overflow-y: scroll;
-    padding-top: 50px;
+    padding-top: 100px;
 
     .actions {
         display: flex;
@@ -113,8 +115,8 @@ export default {
         font-weight: 900;
     }
 
-    img {
-        // margin: 40px 0;
+    .playlist-album {
+        margin: 40px 0;
     }
 
     input[type=text] {
