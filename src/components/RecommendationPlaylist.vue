@@ -43,6 +43,7 @@ export default {
         LoadingSpinner
     },
     props: {
+        initializePlaylists: Function,
         createPlaylist: Function,
         addItemsToPlaylist: Function,
         newPlaylist: Array,
@@ -59,9 +60,11 @@ export default {
     methods: {
         async createSpotifyPlaylist() {
             this.loadingCreatePlaylist = true;
+            const dateObject = (new Date()).toString().split(' ');
+            const dateString = `${dateObject[1]} ${dateObject[2]}, ${dateObject[3]}`
             const createBody = {
-                "name": `${this.playlistName} | Therasonic`,
-                "description": `Music!`,
+                "name": `${this.playlistName}`,
+                "description": `Therasonic | ${dateString}`,
                 "public": false
             };
             const createdPlaylist = await this.createPlaylist(createBody);
@@ -73,6 +76,7 @@ export default {
             const updateRes = await this.addItemsToPlaylist(createdPlaylist.id, updateBody);
 
             this.createdPlaylist = createdPlaylist;
+            await this.initializePlaylists();
             this.loadingCreatePlaylist = false;
         },
         async openSpotifyPlaylist() {

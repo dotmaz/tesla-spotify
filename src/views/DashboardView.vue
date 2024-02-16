@@ -12,10 +12,11 @@
     ></TrackList> -->
     <LoadingScreen v-if="state === 'loading'" :finishGeneratePlaylist="finishGeneratePlaylist" />
     <Home v-if="state === 'home'" :profile="profile" :goToGallery="goToGallery" :goToEngine="goToEngine" />
-    <Gallery v-if="state === 'gallery'" :goHome="goHome" />
+    <Gallery v-if="state === 'gallery'" :goHome="goHome" :playlists="playlists" />
     <ReccomendationEngine v-if="state === 'engine'" :generatePlaylist="generatePlaylist" :goHome="goHome" />
-    <RecommendationPlaylist v-if="state === 'generate'" :newPlaylist="newPlaylist.tracks" :createPlaylist="createPlaylist"
-      :addItemsToPlaylist="addItemsToPlaylist" :goHome="goHome" />
+    <RecommendationPlaylist v-if="state === 'generate'" :initializePlaylists="initializePlaylists"
+      :newPlaylist="newPlaylist.tracks" :createPlaylist="createPlaylist" :addItemsToPlaylist="addItemsToPlaylist"
+      :goHome="goHome" />
   </div>
 </template>
 <script>
@@ -37,8 +38,10 @@ export default {
   },
   props: {
     profile: Object,
+    playlists: Object,
     tracks: Object,
     queue: Array,
+    initializePlaylists: Function,
     handleTrackClicked: Function,
     activeTrack: Object,
     tracksIsLoading: Boolean,
@@ -98,26 +101,29 @@ export default {
       // Input: Array of moods and array of genres (this.moods, this.genres)
       // Output: Query string for /recommendations API (seed_genres and calculated target_attributes from mood)
       let queryString = "";
+      if (this.moods.length) {
+        // Calculate mood profile
+        const customMoodProfile = this.averageMoodProfile(this.moods)
 
+        Object.entries(customMoodProfile).forEach(entry => {
+          queryString += `&target_${entry[0]}=${entry[1]}`
+        })
+      }
 
-      // Calculate mood profile
-      const customMoodProfile = this.averageMoodProfile(this.moods)
+      if (this.genres.length) {
+        // Calculate all genres
+        let allGenres = [];
+        this.genres.forEach(genre => {
+          if (!this.genreMap[genre]) return;
+          allGenres = allGenres.concat(this.genreMap[genre]);
+        })
 
-      Object.entries(customMoodProfile).forEach(entry => {
-        queryString += `&target_${entry[0]}=${entry[1]}`
-      })
+        queryString += `&seed_genres=${allGenres.join(',')}`
+      }
 
-      // Calculate all genres
-      let allGenres = [];
-      this.genres.forEach(genre => {
-        if (!this.genreMap[genre]) return;
-        allGenres = allGenres.concat(this.genreMap[genre]);
-      })
-
-      queryString += `&seed_genres=${allGenres.join(',')}`
-
-      queryString = '?' + queryString.substr(1);
-
+      if (this.genres.length || this.moods.length) {
+        queryString = '?' + queryString.substr(1);
+      }
       return queryString;
     },
 

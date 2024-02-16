@@ -1,13 +1,13 @@
 <template>
     <div class="playlist">
-        <img class="playlist-image" src="../assets/playlist.png">
+        <img class="playlist-image" :src="playlist.images[0].url">
         <div class="row">
             <div class="column">
-                <span class="name">Playlist Name</span>
+                <span class="name">{{ playlist.name.replace(" | Therasonic", "") || "Untitled Playlist" }}</span>
                 <span class="moods">Mood(s)</span>
             </div>
         </div>
-        <span class="date">1/8/27</span>
+        <span class="date">{{ playlist.description.split(' | ')[1] }}</span>
     </div>
 </template>
 <script>
@@ -16,6 +16,7 @@ export default {
     components: {
     },
     props: {
+        playlist: Object
     },
     data: () => {
         return {
@@ -47,6 +48,7 @@ export default {
         width: 60px;
         height: 60px;
         margin-right: 15px;
+        border-radius: 7px;
     }
 
     .column {

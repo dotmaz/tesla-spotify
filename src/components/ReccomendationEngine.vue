@@ -178,6 +178,7 @@ export default {
         font-size: 24px;
         font-weight: bold;
         letter-spacing: 5px;
+        color: #333 !important;
     }
 }
 </style>

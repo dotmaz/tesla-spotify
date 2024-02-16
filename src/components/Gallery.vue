@@ -4,7 +4,7 @@
         <div class="design" id="design-2"></div>
         <img class="back" src="../assets/back.png" @click="goHome" />
         <h1 class="title">Gallery</h1>
-        <Playlists />
+        <Playlists :playlists="playlists" />
     </div>
 </template>
 <script>
@@ -15,7 +15,8 @@ export default {
         Playlists
     },
     props: {
-        goHome: Function
+        goHome: Function,
+        playlists: Object
     },
     data: () => {
         return {

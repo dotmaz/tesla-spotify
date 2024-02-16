@@ -1,6 +1,6 @@
 <template>
-  <DashboardView v-if="loggedIn && dashboardView === 'default'" :getRecommendedPlaylist="getRecommendedPlaylist"
-    :profile="profile" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+  <DashboardView v-if="loggedIn && dashboardView === 'default'" :initializePlaylists="initializePlaylists"
+    :getRecommendedPlaylist="getRecommendedPlaylist" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
       ? { items: playlistTracks }
       : savedTracks
       " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
@@ -245,10 +245,7 @@ export default {
       this.clearQueryParams()
       this.profile = await this.getProfile()
       this.playbackState = await this.getPlaybackState()
-      this.playlists = [
-        { name: 'Liked Songs', id: 0, uri: `spotify:user:${this.profile.display_name}:collection` },
-        ...(await this.getPlaylists()).items
-      ]
+      await this.initializePlaylists();
       this.activePlaylist = this.playlists[0]
       this.savedTracks = await this.getSavedTracks()
       this.queue = (await this.getQueue()).queue
@@ -262,6 +259,13 @@ export default {
       //   this.savedTracks.next = nextTracks.next
       //   this.savedTracks.items = this.savedTracks.items.concat(nextTracks.items)
       // }
+    },
+
+    async initializePlaylists() {
+      this.playlists = [
+        { name: 'Liked Songs', id: 0, uri: `spotify:user:${this.profile.display_name}:collection` },
+        ...(await this.getPlaylists()).items
+      ]
     },
 
     async loadMoreTracks() {
@@ -334,7 +338,7 @@ export default {
 
     /* API */
     async getRecommendedPlaylist(playlistQuery) {
-      const response = await fetch(`https://api.spotify.com/v1/recommendations?${playlistQuery}`, {
+      const response = await fetch(`https://api.spotify.com/v1/recommendations${playlistQuery}`, {
         headers: {
           Authorization: 'Bearer ' + this.accessToken
         }
@@ -495,6 +499,7 @@ export default {
   mounted() {
     // Automatically login every time you open the app
     this.login();
+    // this.getPlaylists();
     // this.initializeGenres();
   },
 
