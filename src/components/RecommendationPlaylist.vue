@@ -5,13 +5,14 @@
         <input v-model="playlistName" type="text" placeholder="Playlist #01" />
         <div class="seperator"></div>
         <div class="actions">
-            <!-- <PrimaryButton :backgroundColor="`#B9F8AF`" :borderColor="`transparent`">
-                Add to Playlist
-            </PrimaryButton> -->
-            <PrimaryButton v-if="newPlaylist" :click="createdPlaylist ? openSpotifyPlaylist : createSpotifyPlaylist"
+            <PrimaryButton v-if="newPlaylist"
+                :click="!loadingCreatePlaylist && (createdPlaylist ? openSpotifyPlaylist : createSpotifyPlaylist)"
                 :backgroundColor="`#1DB954`" :borderColor="`transparent`">
-                {{ createdPlaylist ? "Open In Spotify" : "Add To Spotify" }} <img id="spotify"
-                    src="../assets/spotify.png" />
+                <LoadingSpinner v-if="loadingCreatePlaylist" />
+                <div v-else>
+                    {{ createdPlaylist ? "Open In Spotify" : "Add To Spotify" }} <img id="spotify"
+                        src="../assets/spotify.png" />
+                </div>
             </PrimaryButton>
         </div>
         <div class="seperator"></div>
@@ -33,10 +34,12 @@
 </template>
 <script>
 import PrimaryButton from './PrimaryButton.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 export default {
     name: 'ReccomendationPlaylist',
     components: {
-        PrimaryButton
+        PrimaryButton,
+        LoadingSpinner
     },
     props: {
         createPlaylist: Function,
@@ -47,12 +50,13 @@ export default {
     data: () => {
         return {
             playlistName: "",
-            createdPlaylist: null
+            createdPlaylist: null,
+            loadingCreatePlaylist: false
         }
     },
     methods: {
         async createSpotifyPlaylist() {
-            console.log("new playlist", this.newPlaylist);
+            this.loadingCreatePlaylist = true;
             const createBody = {
                 "name": `${this.playlistName} | Therasonic`,
                 "description": `Music!`,
@@ -67,6 +71,7 @@ export default {
             const updateRes = await this.addItemsToPlaylist(createdPlaylist.id, updateBody);
 
             this.createdPlaylist = createdPlaylist;
+            this.loadingCreatePlaylist = false;
         },
         async openSpotifyPlaylist() {
             window.open(this.createdPlaylist.external_urls.spotify, "_blank");
@@ -89,6 +94,12 @@ export default {
         flex-direction: row;
         justify-content: center;
         align-items: center;
+
+        div {
+            display: flex;
+            align-items: center;
+            height: fit-content;
+        }
     }
 
     h1 {
@@ -103,7 +114,7 @@ export default {
     }
 
     img {
-        margin: 40px 0;
+        // margin: 40px 0;
     }
 
     input[type=text] {
