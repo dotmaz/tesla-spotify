@@ -178,6 +178,7 @@ export default {
 
                 .song-title {
                     font-family: Inter;
+                    font-weight: 900;
                     display: -webkit-box;
                     -webkit-line-clamp: 2;
                     -webkit-box-orient: vertical;

@@ -1,6 +1,7 @@
 <template>
-  <DashboardView v-if="loggedIn && dashboardView === 'default'" :initializePlaylists="initializePlaylists"
-    :getRecommendedPlaylist="getRecommendedPlaylist" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+  <DashboardView @click="initializeFullscreen" v-if="loggedIn && dashboardView === 'default'"
+    :initializePlaylists="initializePlaylists" :getRecommendedPlaylist="getRecommendedPlaylist" :profile="profile"
+    :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
       ? { items: playlistTracks }
       : savedTracks
       " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
@@ -16,6 +17,7 @@
   </CarDashboardView>
   <div v-else class="login-container">
     <ButtonPrimary :handler="() => {
+      this.initializeFullscreen();
       login(true)
     }
       ">Login</ButtonPrimary>
@@ -57,6 +59,13 @@ export default {
     }
   },
   methods: {
+    async initializeFullscreen() {
+      console.log("Shivam dave");
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      }
+    },
+
     /* AUTHORIZATION */
     generateRandomString(length) {
       let text = ''
@@ -193,6 +202,8 @@ export default {
 
     // Perform whole auth flow
     async login(requestCredentials) {
+      // this.initializeFullscreen();
+
       // Check local tokens
       const localAccessToken = localStorage.getItem('access_token')
       const localRefreshToken = localStorage.getItem('refresh_token')
