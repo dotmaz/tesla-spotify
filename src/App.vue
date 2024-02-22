@@ -1,7 +1,7 @@
 <template>
-  <DashboardView @click="initializeFullscreen" v-if="loggedIn && dashboardView === 'default'"
-    :initializePlaylists="initializePlaylists" :getRecommendedPlaylist="getRecommendedPlaylist" :profile="profile"
-    :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+  <DashboardView @click="initializeFullscreen" @touchend="initializeFullscreen"
+    v-if="loggedIn && dashboardView === 'default'" :initializePlaylists="initializePlaylists"
+    :getRecommendedPlaylist="getRecommendedPlaylist" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
       ? { items: playlistTracks }
       : savedTracks
       " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
