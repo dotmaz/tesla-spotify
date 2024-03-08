@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     async initializeFullscreen() {
-      console.log("Shivam dave");
+      return;
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen();
       }
