@@ -55,7 +55,11 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     overflow: hidden;
+    position: fixed;
+    // justify-content: center;
+    align-items: center;
 
 
     .greeting {
@@ -63,7 +67,7 @@ export default {
         font-size: 36px;
         font-weight: bold;
         z-index: 1;
-        margin: 50px 35px;
+        margin: 20px 0;
         font-family: Inter;
 
         .light {
@@ -74,11 +78,10 @@ export default {
     }
 
     .quote {
-        margin: 0 auto;
         text-align: center;
         font-weight: bold;
         color: #355734;
-        margin-top: 60px;
+        margin: 20px 0;
         text-shadow: 0 2px 4px rgba(0, 0, 0, .4);
         z-index: 1;
         max-width: 300px;
@@ -91,7 +94,7 @@ export default {
         align-items: center;
         justify-content: space-between;
 
-        margin: 20px 40px;
+        padding: 0 30px;
 
 
         .playlist {
@@ -118,10 +121,13 @@ export default {
     }
 
     .menu {
-        margin-top: auto;
-        height: 400px;
+        width: 100%;
+        height: 300px;
         background: #72A06A;
         border-radius: 40px 40px 0 0;
+        position: absolute;
+        bottom: 0;
+        z-index: 1;
 
         display: flex;
         flex-direction: column;
@@ -137,7 +143,7 @@ export default {
 
         .menu-actions {
             margin-top: auto;
-            height: 100px;
+            height: 80px;
             width: 100%;
             display: flex;
             flex-direction: row;
