@@ -38,6 +38,7 @@ export default {
     .date {
         font-family: Inter;
         font-weight: 900;
+        color: var(--color-text)!important;
     }
 
     .date {

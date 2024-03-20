@@ -7,34 +7,30 @@
       " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack"
     :handleTrackClicked="handleTrackClicked" :loadMoreTracks="loadMoreTracks" :createPlaylist="createPlaylist"
     :addItemsToPlaylist="addItemsToPlaylist"></DashboardView>
-  <CarDashboardView v-else-if="loggedIn && dashboardView === 'car'" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
+  <!-- <CarDashboardView v-else-if="loggedIn && dashboardView === 'car'" :profile="profile" :playlists="playlists" :tracks="activePlaylist && activePlaylist.id !== 0 && playlistTracks
     ? { items: playlistTracks }
     : savedTracks
     " :queue="queue" :tracksIsLoading="tracksIsLoading" :activeTrack="activeTrack" :activePlaylist="activePlaylist"
     :logout="logout" :handleTrackClicked="handleTrackClicked" :handlePlaylistClicked="handlePlaylistClicked"
     :activeSidebar="activeSidebar" :togglePlaylistsSidebar="togglePlaylistsSidebar"
     :toggleQueueSidebar="toggleQueueSidebar" :loadMoreTracks="loadMoreTracks">
-  </CarDashboardView>
-  <div v-else class="login-container">
-    <ButtonPrimary :handler="() => {
-      this.initializeFullscreen();
-      login(true)
-    }
-      ">Login</ButtonPrimary>
-  </div>
+  </CarDashboardView> -->
+  <LoginView :initializeFullscreen="initializeFullscreen" :login="login" v-else></LoginView>
 </template>
 
 <script>
 import ButtonPrimary from './components/ButtonPrimary.vue'
 import CarDashboardView from './views/CarDashboardView.vue'
 import DashboardView from './views/DashboardView.vue'
+import LoginView from './views/LoginView.vue'
 
 export default {
   name: 'App',
   components: {
     CarDashboardView,
     DashboardView,
-    ButtonPrimary
+    ButtonPrimary,
+    LoginView
   },
   data() {
     return {
@@ -349,7 +345,7 @@ export default {
 
     /* API */
     async getRecommendedPlaylist(playlistQuery) {
-      const response = await fetch(`https://api.spotify.com/v1/recommendations${playlistQuery}`, {
+      const response = await fetch(`https://api.spotify.com/v1/recommendations${playlistQuery}&limit=100`, {
         headers: {
           Authorization: 'Bearer ' + this.accessToken
         }

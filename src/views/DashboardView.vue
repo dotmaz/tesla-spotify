@@ -15,7 +15,7 @@
     <Gallery v-if="state === 'gallery'" :goHome="goHome" :playlists="playlists" />
     <ReccomendationEngine v-if="state === 'engine'" :generatePlaylist="generatePlaylist" :goHome="goHome" />
     <RecommendationPlaylist v-if="state === 'generate'" :initializePlaylists="initializePlaylists"
-      :newPlaylist="newPlaylist.tracks" :createPlaylist="createPlaylist" :addItemsToPlaylist="addItemsToPlaylist"
+      :newPlaylist="newPlaylist" :createPlaylist="createPlaylist" :addItemsToPlaylist="addItemsToPlaylist"
       :goHome="goHome" />
   </div>
 </template>
@@ -93,7 +93,7 @@ export default {
       this.state = 'loading'; // Mount loading screen, will start animation; at end of animation it runs finishGeneratePlaylist
       const playlistQuery = this.generatePlaylistQuery();
       this.getRecommendedPlaylist(playlistQuery).then(res => {
-        this.newPlaylist = res;
+        this.newPlaylist = this.getRandom(res.tracks, 20);
       });
     },
 
@@ -162,6 +162,26 @@ export default {
       });
 
       return averageProfile;
+    },
+
+    getRandom(A, N){
+      // Check if the request is for more items than are available
+      if (N > A.length) {
+          console.log('Requested more items than are available in the array. Returning the full array.');
+          return A;
+      }
+      
+      // Creating a shallow copy of A to preserve the original array
+      let arrayCopy = A.slice();
+      for (let i = arrayCopy.length - 1; i > 0; i--) {
+          // Generate a random index
+          const j = Math.floor(Math.random() * (i + 1));
+          // Swap elements at indices i and j
+          [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+      }
+      
+      // Return the first N elements from the shuffled array
+      return arrayCopy.slice(0, N);
     },
 
     goHome() {
